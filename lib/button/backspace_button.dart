@@ -8,8 +8,9 @@ class BackspaceButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      
       onPressed: onBackspacePressed, // Handle backspace press
-      child: Icon(Icons.backspace),
+      child: Icon(Icons.backspace,color: Colors.brown,),
       tooltip: 'Backspace',
     );
   }
