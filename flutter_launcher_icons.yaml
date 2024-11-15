@@ -1,0 +1,5 @@
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logos/cal1.png"  # Path to your icon image
+  # You can add more configurations as needed
