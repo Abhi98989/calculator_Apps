@@ -1,13 +1,15 @@
-
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class CalculatorButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
+  final TextStyle textStyle;
 
-  CalculatorButton({required this.text, required this.onTap});
+  CalculatorButton({
+    required this.text,
+    required this.onTap,
+    required this.textStyle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class CalculatorButton extends StatelessWidget {
         child: Center(
           child: Text(
             text,
-            style: TextStyle(color: Colors.white, fontSize: 24),
+            style: textStyle, // Use the passed TextStyle
           ),
         ),
       ),

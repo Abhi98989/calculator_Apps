@@ -1,4 +1,5 @@
 // button_grid.dart
+
 import 'package:calculator_app/button/buttons.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class ButtonGrid extends StatelessWidget {
       '7', '8', '9', '/',
       '4', '5', '6', '*',
       '1', '2', '3', '-',
-      'C', '0', '=', '+',
+      'C', '0', '+', '=',
     ];
 
     return Expanded(
@@ -21,12 +22,15 @@ class ButtonGrid extends StatelessWidget {
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 4, // 4 buttons per row
+          crossAxisSpacing: 8.0, // Horizontal space between buttons
+          mainAxisSpacing: 8.0, // Vertical space between buttons
         ),
         itemCount: buttons.length,
         itemBuilder: (context, index) {
           return CalculatorButton(
             text: buttons[index],
             onTap: () => onButtonPressed(buttons[index]),
+            textStyle: TextStyle(fontSize: 24), // Now we can pass textStyle
           );
         },
       ),
