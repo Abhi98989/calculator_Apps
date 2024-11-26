@@ -1,7 +1,12 @@
+import 'dart:math';
 import 'package:calculator_app/button/backspace_button.dart';
 import 'package:calculator_app/button/button_grid.dart';
 import 'package:calculator_app/drawer/drawer_screen.dart';
+import 'package:calculator_app/drawer/storage/storage_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+List<String> calculationHistory = [];
 
 class CalculatorScreen extends StatefulWidget {
   final VoidCallback toggleTheme;
@@ -13,59 +18,61 @@ class CalculatorScreen extends StatefulWidget {
 }
 
 class _CalculatorScreenState extends State<CalculatorScreen> {
-  String displayText = '0'; // Current display text
-  String input = ''; // Current input value
-  String calculationHistory = ''; // Tracks history of operations
-  double? result; // Result of calculations
-  String? operator; // Current operator
-  bool newNumber = false; // Indicates if a new number is being entered
+  String displayText = '0';
+  String input = '';
+  double? result;
+  String? operator;
+  bool newNumber = false;
 
-  // Handle button presses from the ButtonGrid
+  // Function to update the history with result
+  void updateHistory() {
+    calculationHistory.add(displayText); // Store the calculation result in history
+  }
+
+  // Function to handle button presses
   void onButtonPressed(String buttonText) {
     setState(() {
       if (buttonText == 'C') {
-        clearAll(); // Clear all values
+        clearAll();
       } else if (buttonText == '=') {
         if (operator != null) {
-          calculateResult(); // Calculate the result
-          newNumber = true;
+          calculateResult();
+          updateHistory(); // Save to history after calculation
         }
-      } else if (['+', '-', '*', '/'].contains(buttonText)) {
-        handleOperator(buttonText); // Handle operator input
+      } else if (['+', '-', '*', '/', '√', '^2', 'deg'].contains(buttonText)) {
+        handleOperator(buttonText);
       } else {
-        handleNumber(buttonText); // Handle numerical input
+        handleNumber(buttonText);
       }
     });
   }
 
-  // Clears all input and resets the calculator
+  // Clear all data
   void clearAll() {
     displayText = '0';
     input = '';
-    calculationHistory = '';
     result = null;
     operator = null;
     newNumber = false;
   }
 
-  // Handles operator input
+  // Handle operators and calculate the result
   void handleOperator(String buttonText) {
     if (operator != null && input.isNotEmpty) {
-      calculateResult(); // Perform intermediate calculations
+      calculateResult();
     } else if (input.isNotEmpty) {
       result = double.tryParse(input);
     }
 
     operator = buttonText;
-    calculationHistory = '${formatResult(result ?? 0)} $operator';
-    displayText = calculationHistory;
+    displayText = '$result $operator';
     input = '';
     newNumber = true;
   }
 
-  // Handles number and decimal input
+  // Handle number inputs
   void handleNumber(String buttonText) {
-    if (buttonText == '.' && input.contains('.')) return; // Prevent multiple decimals
+    if (buttonText == '.' && input.contains('.')) return;
 
     if (newNumber) {
       input = buttonText;
@@ -77,7 +84,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     displayText = input;
   }
 
-  // Performs the calculation based on the operator
+  // Perform the actual calculation
   void calculateResult() {
     if (input.isEmpty || operator == null) return;
 
@@ -97,45 +104,60 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         if (currentInput != 0) {
           result = (result ?? 0) / currentInput;
         } else {
-          displayText = 'Error'; // Handle division by zero
+          displayText = 'Error';
           input = '';
           operator = null;
           return;
         }
         break;
+      case '√':
+        // Square root: handle only positive numbers
+        if (currentInput < 0) {
+          displayText = 'Error';
+          input = '';
+          operator = null;
+          return;
+        }
+        result = sqrt(currentInput);
+        break;
+      case '^2':
+        // Square the number
+        result = pow(currentInput, 2).toDouble();
+        break;
+      case 'deg':
+        // Convert radians to degrees
+        result = currentInput * (180 / pi);
+        break;
     }
 
-    calculationHistory += ' $input = ${formatResult(result ?? 0)}';
-    displayText = formatResult(result ?? 0);
+    // Display the result and reset the operator and input for the next operation
+    displayText = result.toString();
     input = '';
     operator = null;
-  }
-
-  // Formats results to remove unnecessary decimals
-  String formatResult(double result) {
-    return result == result.toInt() ? result.toInt().toString() : result.toString();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Calculator',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
+        title: const Text('Calculator'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.science),
+            onPressed: () {
+              // Navigate to the scientific calculator screen
+              context.go('/CalculatorApp');
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.nightlight_round),
-            onPressed: widget.toggleTheme, // Toggle the theme using VoidCallback
+            onPressed: widget.toggleTheme,
           ),
         ],
       ),
-      drawer: AppDrawer(), // Integrate a drawer menu
+      drawer: AppDrawer(),
       body: Column(
         children: [
-          // Display Area
           Expanded(
             child: Container(
               alignment: Alignment.bottomRight,
@@ -144,24 +166,53 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                 displayText,
                 style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
                 maxLines: 2,
-                overflow: TextOverflow.ellipsis, // Prevents text overflow
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
           const Divider(),
-          // Button Grid
-          ButtonGrid(onButtonPressed: onButtonPressed), // Pass button handling
+          // Normal mode button grid
+          ButtonGrid(onButtonPressed: onButtonPressed),
         ],
       ),
-      floatingActionButton: BackspaceButton(
-        onBackspacePressed: () {
-          setState(() {
-            if (input.isNotEmpty) {
-              input = input.substring(0, input.length - 1); // Remove last character
-              displayText = input.isEmpty ? '0' : input;
-            }
-          });
-        },
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Position buttons at opposite ends
+        children: [
+          // History button
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0), // Padding to avoid edge collision
+            child: Padding(
+              padding: const EdgeInsets.all(35.0),
+              child: FloatingActionButton(
+                heroTag: 'history',
+                onPressed: () {
+                  // Navigate to StorageScreen with the history
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StorageScreen(calculationHistory: calculationHistory),
+                    ),
+                  );
+                },
+                child: const Icon(Icons.history),
+              ),
+            ),
+          ),
+          // Backspace button
+          Padding(
+            padding: const EdgeInsets.only(left: 18.0), // Padding to avoid edge collision
+            child: BackspaceButton(
+              onBackspacePressed: () {
+                setState(() {
+                  if (input.isNotEmpty) {
+                    input = input.substring(0, input.length - 1);
+                    displayText = input.isEmpty ? '0' : input;
+                  }
+                });
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

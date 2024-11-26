@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 
 class StorageScreen extends StatelessWidget {
-  // A simple list to simulate the stored calculation history
-  final List<Map<String, String>> calculationHistory = [
-    {'expression': '5 + 3', 'result': '8'},
-    {'expression': '10 - 2', 'result': '8'},
-    {'expression': '7 * 6', 'result': '42'},
-    {'expression': '20 / 4', 'result': '5'},
-  ];
+  final List<String> calculationHistory;
+
+  const StorageScreen({Key? key, required this.calculationHistory}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Calculation History')),
+      appBar: AppBar(
+        title: const Text('History'),
+      ),
       body: calculationHistory.isEmpty
-          ? Center(child: Text('No history available'))
+          ? const Center(child: Text("No History Available"))
           : ListView.builder(
               itemCount: calculationHistory.length,
               itemBuilder: (context, index) {
-                final calc = calculationHistory[index];
                 return ListTile(
-                  title: Text(calc['expression']!),
-                  subtitle: Text(calc['result']!),
+                  title: Text(calculationHistory[index]),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      // Optionally, add functionality to remove a history entry
+                    },
+                  ),
                 );
               },
             ),

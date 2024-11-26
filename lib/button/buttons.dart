@@ -16,10 +16,10 @@ class CalculatorButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.all(8),
+        margin: EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: _getButtonColor(text),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(25),
         ),
         child: Center(
           child: Text(

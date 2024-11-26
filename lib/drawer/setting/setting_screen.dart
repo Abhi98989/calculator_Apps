@@ -1,79 +1,50 @@
-import 'package:calculator_app/drawer/setting/setting_provider_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart'; // Add this import for navigation
 
-class SettingsScreen extends StatelessWidget {
-  SettingsScreen({super.key});
+class ModeScreen extends StatefulWidget {
+  const ModeScreen({Key? key}) : super(key: key);
+
+  @override
+  _ModeScreenState createState() => _ModeScreenState();
+}
+
+class _ModeScreenState extends State<ModeScreen> {
+  bool isScientificMode = false;
+
+  // Toggle between normal and scientific calculator mode
+  void toggleScientificMode(bool value) {
+    setState(() {
+      isScientificMode = value;
+      // Navigate to CalculatorScreen with the new mode
+      context.go('/', extra: isScientificMode);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final settingsProvider = Provider.of<SettingsProvider>(context); // Access the provider
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
-        centerTitle: true,
+        title: const Text('Select Calculator Mode'),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Dark Mode Toggle
-            SwitchListTile(
-              title: const Text('Dark Mode'),
-              subtitle: const Text('Switch between light and dark themes'),
-              value: settingsProvider.isDarkMode,
-              onChanged: (value) {
-                settingsProvider.toggleDarkMode(value);
-              },
-            ),
-            const Divider(),
-
-            // Scientific Calculator Mode
-            SwitchListTile(
-              title: const Text('Scientific Mode'),
-              subtitle: const Text('Enable advanced scientific calculations'),
-              value: settingsProvider.scientificMode,
-              onChanged: (value) {
-                settingsProvider.toggleScientificMode(value);
-              },
-            ),
-            const Divider(),
-
-            // Font Size Slider
-            const Text(
-              'Adjust Font Size',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            Slider(
-              value: settingsProvider.fontSize,
-              min: 14.0,
-              max: 28.0,
-              divisions: 6,
-              label: settingsProvider.fontSize.toString(),
-              onChanged: (value) {
-                settingsProvider.setFontSize(value);
-              },
-            ),
-            const Divider(),
-
-            // Reset Preferences
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  settingsProvider.resetSettings();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Settings reset to default!')),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
-                ),
-                child: const Text('Reset to Default'),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Choose Calculator Mode',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              SwitchListTile(
+                title: const Text('Scientific Calculator Mode'),
+                subtitle: const Text('Enable for advanced calculations'),
+                value: isScientificMode,
+                onChanged: toggleScientificMode,
+              ),
+            ],
+          ),
         ),
       ),
     );

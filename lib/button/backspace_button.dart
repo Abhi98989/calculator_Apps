@@ -11,12 +11,16 @@ class BackspaceButton extends StatelessWidget {
       onPressed: onBackspacePressed, // Handle backspace press
       child: Icon(
         Icons.backspace,
-        color: Colors.white, // Change icon color to white for better visibility
+        color: Colors.white, // Icon color for visibility
+        size: 30, // Increased icon size
       ),
-      backgroundColor: Colors.blue, // Define background color (adjust to your theme)
+      backgroundColor: Colors.blue, // Background color of the button
       tooltip: 'Backspace',
-      mini: true, // Optional: make the button smaller if needed
-      elevation: 4.0, // Optional: add some elevation for a subtle shadow effect
+      mini: false, // Set to false to make the button larger
+      elevation: 8.0, // Subtle shadow for a more prominent button
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16), // Optional: for rounded corners
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/services.dart'; // Import to use SystemNavigator
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -8,56 +9,56 @@ class AppDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
+          const DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.grey[600],
+              color: Colors.blue,
             ),
             child: Text(
-              'Menu',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-              ),
+              'Calculator App',
+              style: TextStyle(color: Colors.white, fontSize: 24),
             ),
           ),
+          // ListTile(
+          //   leading: const Icon(Icons.people),
+          //   title: const Text('Profile'),
+          //   onTap: () {
+          //     context.go('/ProfileScreen'); // Navigate to profile screen
+          //   },
+          // ),
+          // ListTile(
+          //   leading: const Icon(Icons.history),
+          //   title: const Text('History'),
+          //   onTap: () {
+          //     context.go('/StorageScreen'); // Navigate to history screen
+          //   },
+          // ),
           ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Profile'),
+            leading: const Icon(Icons.settings),
+            title: const Text('Mode'),
             onTap: () {
-              context.pop(); // Use pop method from GoRouter
-              context.push('/ProfileScreen');
+              context.go('/ModeScreen'); // Navigate to mode screen
             },
           ),
           ListTile(
-            leading: Icon(Icons.storage),
-            title: Text('Storage'),
+            leading: const Icon(Icons.info),
+            title: const Text('About Us'),
             onTap: () {
-              context.pop(); // Use pop method from GoRouter
-              context.push('/StorageScreen');
+              context.go('/AboutUsPageScreen'); // Navigate to about us page
             },
           ),
           ListTile(
-            leading: Icon(Icons.info),
-            title: Text('About Us'),
+            leading: const Icon(Icons.info),
+            title: const Text('Privacy Policy'),
             onTap: () {
-              context.pop(); // Use pop method from GoRouter
-              context.push('/AboutUsPageScreen');
+              context.go('/PrivacyPolicyScreen'); // Navigate to about us page
             },
           ),
           ListTile(
-            leading: Icon(Icons.privacy_tip),
-            title: Text('Privacy Policy'),
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text('Exit'),
             onTap: () {
-              context.pop(); // Use pop method from GoRouter
-              context.push('/PrivacyPolicyScreen');
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-            onTap: () {
-              context.pop(); // Use pop method from GoRouter
-              context.push('/SettingsScreen');
+              Navigator.of(context).pop(); // Close the drawer
+              SystemNavigator.pop(); // Close the app
             },
           ),
         ],
