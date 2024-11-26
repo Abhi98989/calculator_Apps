@@ -248,19 +248,19 @@ class _CalculatorAppState extends State<CalculatorApp> {
             padding: const EdgeInsets.only(right: 8.0), // Padding to avoid edge collision
             child: Padding(
               padding: const EdgeInsets.all(35.0),
-              child: FloatingActionButton(
-                heroTag: 'history',
-                onPressed: () {
-                  // Navigate to StorageScreen with the history
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => StorageScreen(calculationHistory: calculationHistory),
-                    ),
-                  );
-                },
-                child: const Icon(Icons.history),
-              ),
+              // child: FloatingActionButton(
+              //   heroTag: 'history',
+              //   onPressed: () {
+              //     // Navigate to StorageScreen with the history
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => StorageScreen(calculationHistory: calculationHistory),
+              //       ),
+              //     );
+              //   },
+              //   child: const Icon(Icons.history),
+              // ),
             ),
           ),
           // Backspace button
