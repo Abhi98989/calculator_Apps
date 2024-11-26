@@ -3,6 +3,7 @@ import 'package:calculator_app/button/backspace_button.dart';
 import 'package:calculator_app/button/button_grid.dart';
 import 'package:calculator_app/drawer/drawer_screen.dart';
 import 'package:calculator_app/drawer/storage/storage_screen.dart';
+import 'package:calculator_app/scientific/second_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -149,6 +150,18 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               context.go('/CalculatorApp');
             },
           ),
+           IconButton(
+            icon: const Icon(Icons.history),
+            onPressed: () {
+              // Navigate to HistoryScreen to show the calculation history
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HistoryScreen(history: calculationHistory),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.nightlight_round),
             onPressed: widget.toggleTheme,
@@ -183,19 +196,19 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
             padding: const EdgeInsets.only(right: 8.0), // Padding to avoid edge collision
             child: Padding(
               padding: const EdgeInsets.all(35.0),
-              child: FloatingActionButton(
-                heroTag: 'history',
-                onPressed: () {
-                  // Navigate to StorageScreen with the history
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => StorageScreen(calculationHistory: calculationHistory),
-                    ),
-                  );
-                },
-                child: const Icon(Icons.history),
-              ),
+              // child: FloatingActionButton(
+              //   heroTag: 'history',
+              //   onPressed: () {
+              //     // Navigate to StorageScreen with the history
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (context) => StorageScreen(calculationHistory: calculationHistory),
+              //       ),
+              //     );
+              //   },
+              //   child: const Icon(Icons.history),
+              // ),
             ),
           ),
           // Backspace button

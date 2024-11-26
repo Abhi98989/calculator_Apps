@@ -39,20 +39,20 @@ class AppDrawer extends StatelessWidget {
               context.go('/ModeScreen'); // Navigate to mode screen
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.info),
-            title: const Text('About Us'),
-            onTap: () {
-              context.go('/AboutUsPageScreen'); // Navigate to about us page
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.info),
-            title: const Text('Privacy Policy'),
-            onTap: () {
-              context.go('/PrivacyPolicyScreen'); // Navigate to about us page
-            },
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.info),
+          //   title: const Text('About Us'),
+          //   onTap: () {
+          //     context.go('/AboutUsPageScreen'); // Navigate to about us page
+          //   },
+          // ),
+          // ListTile(
+          //   leading: const Icon(Icons.info),
+          //   title: const Text('Privacy Policy'),
+          //   onTap: () {
+          //     context.go('/PrivacyPolicyScreen'); // Navigate to about us page
+          //   },
+          // ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text('Exit'),
