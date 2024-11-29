@@ -1,12 +1,10 @@
 import 'package:calculator_app/drawer/about%20us/aboutus_screen.dart';
 import 'package:calculator_app/drawer/privacy%20policy/privacypolicy_screen.dart';
 import 'package:calculator_app/scientific/second_screen.dart';
+import 'package:calculator_app/screen/calculatorScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:calculator_app/drawer/setting/setting_screen.dart';
-import 'package:calculator_app/drawer/storage/storage_screen.dart';
-import 'package:calculator_app/screen/calculatorScreen.dart';
-
 List<String> calculationHistory = []; // Global history list
 
 void main() {
@@ -44,12 +42,12 @@ class _MyAppState extends State<MyApp> {
         //     return const ProfileScreen();
         //   },
         // ),
-        GoRoute(
-          path: '/StorageScreen',
-          builder: (BuildContext context, GoRouterState state) {
-            return StorageScreen(calculationHistory: calculationHistory);
-          },
-        ),
+        // GoRoute(
+        //   path: '/StorageScreen',
+        //   builder: (BuildContext context, GoRouterState state) {
+        //     return StorageScreen(calculationHistory: calculationHistory);
+        //   },
+        // ),
         GoRoute(
           path: '/ModeScreen',
           builder: (BuildContext context, GoRouterState state) {
@@ -76,7 +74,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
     );
-
+    
     return MaterialApp.router(
       title: 'Calculator App',
       theme: ThemeData.light(),

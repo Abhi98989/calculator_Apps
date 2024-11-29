@@ -2,8 +2,7 @@ import 'dart:math';
 import 'package:calculator_app/button/backspace_button.dart';
 import 'package:calculator_app/button/button_grid.dart';
 import 'package:calculator_app/drawer/drawer_screen.dart';
-import 'package:calculator_app/drawer/storage/storage_screen.dart';
-import 'package:calculator_app/scientific/second_screen.dart';
+import 'package:calculator_app/scientific/history_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

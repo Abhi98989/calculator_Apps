@@ -8,7 +8,7 @@ class CalculatorButton extends StatelessWidget {
   CalculatorButton({
     required this.text,
     required this.onTap,
-    required this.textStyle,
+    required this.textStyle, required Color backgroundColor,
   });
 
   @override
